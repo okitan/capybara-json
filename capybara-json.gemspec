@@ -1,10 +1,7 @@
 # -*- encoding: utf-8 -*-
-$:.push File.expand_path("../lib", __FILE__)
-require "capybara/json"
-
 Gem::Specification.new do |s|
   s.name        = "capybara-json"
-  s.version     = Capybara::JSON::VERSION
+  s.version     = File.read(File.expand_path('VERSION', File.dirname(__FILE__))).chomp
   s.authors     = ["okitan"]
   s.email       = ["okitakunio@gmail.com"]
   s.homepage    = ""
@@ -24,10 +21,8 @@ Gem::Specification.new do |s|
   end
 
   [ [ 'rspec', '~> 2.0' ],
+    [ 'sinatra' ],
   ].each do |gem, version|
     s.add_development_dependency gem, version
   end
-  # specify any dependencies here; for example:
-  # s.add_development_dependency "rspec"
-  # s.add_runtime_dependency "rest-client"
 end
