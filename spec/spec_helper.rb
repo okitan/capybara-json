@@ -1,7 +1,8 @@
-$: << File.expand_path('../lib', File.dirname(__FILE__))
+ROOT = File.dirname(__FILE__)
+$: << File.expand_path('../lib', ROOT)
 
 require 'capybara/json'
-require 'capybara/spec/test_app'
+Dir[File.expand_path("support/**/*.rb", ROOT)].each {|f| require f }
 
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true

@@ -16,12 +16,15 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   [ [ 'capybara' ],
+    [ 'multi_json' ],
   ].each do |gem, version|
     s.add_runtime_dependency gem, version
   end
 
-  [ [ 'rspec', '~> 2.0' ],
+  [ [ 'rspec', '~> 2.8.0.rc' ],
     [ 'sinatra' ],
+    [ 'yajl-ruby' ],
+    [ 'autowatchr' ],
   ].each do |gem, version|
     s.add_development_dependency gem, version
   end
