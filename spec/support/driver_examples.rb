@@ -1,3 +1,9 @@
+require 'capybara/spec/driver'
+
+[ 'driver', 'driver with header support' ].each do |shared|
+  RSpec.world.shared_example_groups.delete(shared)
+end
+
 shared_examples_for 'driver' do
   describe '#visit' do
     it "should move to another page" do
@@ -22,4 +28,11 @@ shared_examples_for 'driver' do
   end
 
   # TODO: find by jsonpath?
+end
+
+shared_examples_for 'driver with header support' do
+  it "should make headers available through response_headers" do
+    @driver.visit('/')
+    @driver.response_headers['Content-Type'].should =~ /^application\/json/
+  end
 end
