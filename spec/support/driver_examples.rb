@@ -36,3 +36,29 @@ shared_examples_for 'driver with header support' do
     @driver.response_headers['Content-Type'].should =~ /^application\/json/
   end
 end
+
+
+%w[ post put ].each do |method|
+  shared_examples_for "driver to #{method} json" do
+    it 'should set content type as json to request' do
+      @driver.__send__(method, '/env', {})
+      @driver.body['content_type'].should =~ %r"^application/json"
+    end
+    
+    it 'should set content length' do
+      json = { :some => :args }
+      
+      @driver.__send__(method, '/env', json)
+      @driver.body['content_length'].should == MultiJson.encode(json).length
+    end
+    
+    it 'should post body' do
+      json = { :some => :args }
+      
+      @driver.__send__(method, '/env', json)
+      @driver.body['rack.input'].should == MultiJson.encode(json)
+    end
+  end
+end
+
+
