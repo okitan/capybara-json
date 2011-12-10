@@ -16,13 +16,13 @@ class JsonTestApp < TestApp
     end
   end
 
-  get '/' do
-    'Hello world!'
-  end
+  %w[ get post put delete ].each do |method|
+    __send__(method, '/') do
+      'Hello world!'
+    end
 
-  # rack specifications
-  # http://rack.rubyforge.org/doc/SPEC.html
-  %w[ post put ].each do |method|
+    # rack specifications
+    # http://rack.rubyforge.org/doc/SPEC.html
     __send__(method, '/env') do
       envs = %w[ REQUEST_METHOD PATH_INFO QUERY_STRING CONTENT_TYPE CONTENT_LENGTH rack.url_scheme ]\
                .inject({}) do |hash, key|
