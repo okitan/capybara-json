@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
     [ 'sinatra' ],
     [ 'yajl-ruby' ],
     [ 'autowatchr' ],
+    [ 'rake' ],
   ].each do |gem, version|
     s.add_development_dependency gem, version
   end
