@@ -5,4 +5,4 @@ rvm:
   - head
 gemfile:
   - Gemfile
-  - Gemfile.capybara.lt.1.0
+#  - Gemfile.capybara.lt.1.0
