@@ -3,8 +3,12 @@ require 'capybara/dsl'
 
 module Capybara
   module Json
+    def self.to_include
+      Capybara.const_defined?("DSL") ? Capybara::DSL : Capybara
+    end
+
     def self.included(base)
-      base.__send__(:include, Capybara::DSL) unless base < Capybara or base < Capybara::DSL 
+      base.__send__(:include, to_include) unless base < to_include
       base.extend(self)
     end
 

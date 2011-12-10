@@ -1,10 +1,11 @@
 require 'multi_json'
 
-class Capybara::RackTestJson::Driver < Capybara::RackTest::Driver
+to_inherit = Capybara.const_defined?("RackTest") ? Capybara::RackTest::Driver : Capybara::Driver::RackTest
+
+class Capybara::RackTestJson::Driver < to_inherit
   def body
     MultiJson.decode(source) || {}
   end
-  
 
   %w[ post put ].each do |method|
     class_eval %{
