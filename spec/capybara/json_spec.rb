@@ -6,7 +6,7 @@ describe "to require 'capybara/json'" do
   end
 end
 
-describe Capybara::Json, :wip do
+describe Capybara::Json do
   include described_class
 
   before(:all) do
