@@ -1,3 +1,7 @@
+## 0.0.3
+* ENHANCEMENT
+    * creae :httpclient_json driver
+
 ## 0.0.2
 * ENHANCEMENT
     * support capybara < 1.0

@@ -18,13 +18,17 @@ testing web application
     body   #=> parsed json response
     source #=> raw response body
 
+    Capybara.current_driver = :httpclient_json
+
+    post 'http://example.jp/', { "this is" => "json" }
+    body   #=> parsed json response
+    source #=> raw response body
+
 ## ROADMAP
 
 * 0.0.1
     * create :rack_test_json driver which supports normal json response (2xx, 3xx)
 * 0.0.3
-    * create :httpclient driver for remote testing
-* 0.0.4
     * create :httpclient_json driver with the same interface with :rack_test_json in normal json response
 * 0.1.0
     * ensure :rack_test_json and :httpclient_json has the same interface in error response (4xx, 5xx)
