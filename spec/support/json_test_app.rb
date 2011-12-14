@@ -1,5 +1,22 @@
 require 'capybara/spec/test_app'
 
+# for capybara < 1.0
+module Capybara
+  class Server
+    class Identify
+      def call(env)
+        if env["PATH_INFO"] == "/__identify__"
+          #[200, {}, @app.object_id.to_s]
+          [200, {}, [ @app.object_id.to_s] ]
+        else
+          @app.call(env)
+        end
+      end
+    end
+  end  
+end
+
+
 class JsonTestApp < TestApp
   def invoke
     res = catch(:halt) { yield }
