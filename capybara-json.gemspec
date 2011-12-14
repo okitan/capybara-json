@@ -16,6 +16,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   [ [ 'capybara' ],
+    [ 'httpclient' ],
     [ 'multi_json' ],
   ].each do |gem, version|
     s.add_runtime_dependency gem, version

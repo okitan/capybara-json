@@ -1,6 +1,8 @@
 require 'capybara'
 require 'capybara/dsl'
 
+require 'multi_json'
+
 module Capybara
   module Json
     def self.to_include
@@ -32,8 +34,16 @@ module Capybara
   module RackTestJson
     autoload :Driver, 'capybara/rack_test_json/driver'
   end
+
+  module HTTPClientJson
+    autoload :Driver, 'capybara/http_client_json/driver'
+  end
 end
 
 Capybara.register_driver :rack_test_json do |app|
   Capybara::RackTestJson::Driver.new(app)
+end
+
+Capybara.register_driver :http_client_json do  |app|
+  Capybara::HTTPClientJson::Driver.new(app)
 end

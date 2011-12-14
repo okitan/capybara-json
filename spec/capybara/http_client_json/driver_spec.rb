@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-klass = Capybara::RackTestJson::Driver
+klass = Capybara::HTTPClientJson::Driver
 
 describe klass do
   before { @driver = described_class.new(JsonTestApp) }

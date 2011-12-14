@@ -1,5 +1,8 @@
 require 'capybara/spec/driver'
 
+# this code is written in capybara's spec/spec_helper
+alias :running :lambda
+
 [ 'driver', 'driver with header support' ].each do |shared|
   RSpec.world.shared_example_groups.delete(shared)
 end
@@ -49,7 +52,7 @@ end
       json = { :some => :args }
       
       @driver.__send__(method, '/env', json)
-      @driver.body['content_length'].should == MultiJson.encode(json).length
+      @driver.body['content_length'].to_i.should == MultiJson.encode(json).length
     end
     
     it 'should post body' do

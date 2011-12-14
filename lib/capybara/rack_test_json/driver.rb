@@ -1,5 +1,3 @@
-require 'multi_json'
-
 to_inherit = Capybara.const_defined?("RackTest") ? Capybara::RackTest::Driver : Capybara::Driver::RackTest
 
 class Capybara::RackTestJson::Driver < to_inherit

@@ -33,7 +33,7 @@ class JsonTestApp < TestApp
         hash[key.sub('HTTP_', '')] = value
         hash
       end
-      
+
       envs.merge('params' => params, 'headers' => headers, 'rack.input' => env['rack.input'].string)
     end
   end
