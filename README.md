@@ -11,16 +11,16 @@ testing web application
 
 ## USAGE
     require 'capybara/json'
-    Capybara.current_driver = :rack_test_json
-
     include Capybara::Json
-    post '/', { "this is" => "json" } # POST { "this is": "json" } 
+
+    Capybara.current_driver = :rack_test_json
+    post '/', { "this is" => "json" } # POST '/'
     body   #=> parsed json response
     source #=> raw response body
 
     Capybara.current_driver = :httpclient_json
-
-    post 'http://example.jp/', { "this is" => "json" }
+    Capybara.app_host = 'http://example.com'
+    post '/', { "this is" => "json" } # POST 'http://example.com/'
     body   #=> parsed json response
     source #=> raw response body
 
