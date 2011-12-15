@@ -64,4 +64,34 @@ end
   end
 end
 
+shared_examples_for 'driver for client error' do
+  it 'should not raise exception' do
+    expect { @driver.get('/errors/400') }.should_not raise_exception
+  end
 
+  it 'should make the status code available' do
+    @driver.get('/errors/400')
+    @driver.status_code.should == 400
+  end
+
+  it 'should make the response header available' do
+    @driver.get('/errors/400')
+    @driver.response_headers['Content-Type'].should =~ /^application\/json/
+  end
+
+  it 'should make the body available' do
+    @driver.get('/errors/400')
+    @driver.body['status_code'].should == 400
+  end
+end
+
+shared_examples_for 'driver for server error' do
+  it 'should not raise exception' do
+    expect { @driver.get('/errors/500') }.should_not raise_exception
+  end
+
+  it 'should make the status_code available' do
+    @driver.get('/errors/500')
+    @driver.status_code.should == 500
+  end
+end

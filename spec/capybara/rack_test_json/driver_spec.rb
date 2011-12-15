@@ -13,4 +13,7 @@ describe klass do
 
   it_should_behave_like 'driver to post json'
   it_should_behave_like 'driver to put json'
+
+  it_should_behave_like 'driver for client error'
+  it_should_behave_like 'driver for server error'
 end

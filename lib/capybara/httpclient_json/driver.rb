@@ -66,11 +66,11 @@ class Capybara::HTTPClientJson::Driver < Capybara::Driver::Base
     begin
       @response = client.__send__(method, @current_url, params, headers, options)
     rescue HTTPClient::BadResponseError => e
-      raise Capybara::InfiniteRedirectError
+      if e.message == "retry count exceeded"
+        raise Capybara::InfiniteRedirectError
+      else
+        @response = e.res
+      end
     end
-  end
-  
-  def url_for(path)
-    path
   end
 end

@@ -54,4 +54,9 @@ class JsonTestApp < TestApp
       envs.merge('params' => params, 'headers' => headers, 'rack.input' => env['rack.input'].string)
     end
   end
+
+  get '/errors/:status_code' do |status_code|
+    status status_code.to_i
+    { 'status_code' => status_code.to_i }
+  end
 end
