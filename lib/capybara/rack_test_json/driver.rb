@@ -7,6 +7,10 @@ class Capybara::RackTestJson::Driver < to_inherit
 
   %w[ get delete ].each do |method|
     class_eval %{
+      def #{method}(path, params = {}, env = {})
+        super(path, params, env_for_rack(env))
+      end
+
       def #{method}!(path, params = {}, env = {})
         handle_error { #{method}(path, params, env) }
       end
@@ -17,12 +21,12 @@ class Capybara::RackTestJson::Driver < to_inherit
     class_eval %{
       def #{method}(path, json, env = {})
         json = MultiJson.encode(json) unless json.is_a?(String)
-        
+
         request_env = {
           'CONTENT_LENGTH' => json.size,
           'CONTENT_TYPE'   => "application/json; charset=\#{json.encoding.to_s.downcase}", 
           'rack.input'     => StringIO.new(json)
-        }.merge(env)
+        }.merge(env_for_rack(env))
         
         super(path, {}, request_env)
       end
@@ -34,6 +38,16 @@ class Capybara::RackTestJson::Driver < to_inherit
   end
 
   protected
+  def env_for_rack(env)
+    env.inject({}) do |rack_env, (key, value)|
+      env_key = key.upcase.gsub('-', '_')
+      env_key = "HTTP_" + env_key unless env_key == "CONTENT_TYPE"
+      rack_env[env_key] = value
+
+      rack_env
+    end
+  end
+
   def handle_error(&block)
     yield
     raise(Capybara::Json::Error, response) if status_code >= 400

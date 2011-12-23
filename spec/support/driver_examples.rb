@@ -40,6 +40,13 @@ shared_examples_for 'driver with header support' do
   end
 end
 
+shared_examples_for 'driver with custom header support' do
+  it "should send custom header" do
+    @driver.get('/env', {}, { 'X-Custom-Header' => 'custom header'})
+    @driver.body['headers']['X_CUSTOM_HEADER'].should == 'custom header'
+  end
+end
+
 
 %w[ post put ].each do |method|
   shared_examples_for "driver to #{method} json" do

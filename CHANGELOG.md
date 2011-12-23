@@ -1,6 +1,8 @@
 ## 0.1.1
 * ENHANCEMENT
-    * get!, post!, put!, delete! 
+    * get!, post!, put!, delete!
+* BUGFIX
+    * ensure the same interface sending header to app
 
 ## 0.1.0
 * ENHANCEMENT
