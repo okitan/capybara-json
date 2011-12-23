@@ -1,5 +1,10 @@
+## 0.1.1
+* ENHANCEMENT
+    * get!, post!, put!, delete! 
+
 ## 0.1.0
-   * gurantee the same interface in error response
+* ENHANCEMENT
+    * gurantee the same interface in error response
 
 ## 0.0.3
 * ENHANCEMENT

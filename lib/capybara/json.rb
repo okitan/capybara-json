@@ -29,6 +29,8 @@ module Capybara
         end
       }
     end
+
+    autoload :Error, 'capybara/json/error'
   end
 
   module RackTestJson

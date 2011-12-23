@@ -5,6 +5,14 @@ class Capybara::RackTestJson::Driver < to_inherit
     MultiJson.decode(source) || {}
   end
 
+  %w[ get delete ].each do |method|
+    class_eval %{
+      def #{method}!(path, params = {}, env = {})
+        handle_error { #{method}(path, params, env) }
+      end
+    }
+  end
+
   %w[ post put ].each do |method|
     class_eval %{
       def #{method}(path, json, env = {})
@@ -18,6 +26,16 @@ class Capybara::RackTestJson::Driver < to_inherit
         
         super(path, {}, request_env)
       end
+
+      def #{method}!(path, json, env = {})
+        handle_error { #{method}(path, json, env) }
+      end
     }
+  end
+
+  protected
+  def handle_error(&block)
+    yield
+    raise(Capybara::Json::Error, response) if status_code >= 400
   end
 end

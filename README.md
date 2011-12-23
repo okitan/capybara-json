@@ -17,20 +17,16 @@ testing web application
     post '/', { "this is" => "json" } # POST '/'
     body   #=> parsed json response
     source #=> raw response body
+    get  '/errors/400'
+    status_code #=> 400
+    get! '/errors' #=> raise Capybara::Json::Error
 
     Capybara.current_driver = :httpclient_json
     Capybara.app_host = 'http://example.com'
     post '/', { "this is" => "json" } # POST 'http://example.com/'
     body   #=> parsed json response
     source #=> raw response body
+    get  '/errors/400'
+    status_code #=> 400
+    get! '/errors' #=> raise Capybara::Json::Error
 
-## ROADMAP
-
-* 0.0.1
-    * create :rack_test_json driver which supports normal json response (2xx, 3xx)
-* 0.0.3
-    * create :httpclient_json driver with the same interface with :rack_test_json in normal json response
-* 0.1.0
-    * ensure :rack_test_json and :httpclient_json has the same interface in error response (4xx, 5xx)
-* 0.2.0
-    * add jsonpath? interface to search response

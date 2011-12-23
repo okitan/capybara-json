@@ -54,6 +54,22 @@ class Capybara::HTTPClientJson::Driver < Capybara::Driver::Base
   def delete(url, params = {}, headers = {})
     process :delete, url, params, headers
   end
+
+  %w[ get delete ].each do |method|
+    class_eval %{
+      def #{method}!(url, params = {}, env = {})
+        handle_error { #{method}(url, params, env) }
+      end
+    }
+  end
+
+  %w[ post put ].each do |method|
+    class_eval %{
+      def #{method}!(url, json, headers = {})
+        handle_error { #{method}(url, json, headers) }
+      end
+      }
+  end
   
   def reset!
     @client = nil
@@ -72,5 +88,10 @@ class Capybara::HTTPClientJson::Driver < Capybara::Driver::Base
         @response = e.res
       end
     end
+  end
+
+  def handle_error(&block)
+    yield
+    raise(Capybara::Json::Error, response) if status_code >= 400
   end
 end

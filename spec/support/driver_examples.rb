@@ -83,6 +83,10 @@ shared_examples_for 'driver for client error' do
     @driver.get('/errors/400')
     @driver.body['status_code'].should == 400
   end
+
+  it 'should raise error using bang!' do
+    expect { @driver.get!('/errors/400') }.should raise_exception(Capybara::Json::Error)
+  end
 end
 
 shared_examples_for 'driver for server error' do
@@ -93,5 +97,9 @@ shared_examples_for 'driver for server error' do
   it 'should make the status_code available' do
     @driver.get('/errors/500')
     @driver.status_code.should == 500
+  end
+
+  it 'should raise error using bang!' do
+    expect { @driver.get!('/errors/500') }.should raise_exception(Capybara::Json::Error)
   end
 end
