@@ -14,7 +14,7 @@ module Capybara
       base.extend(self)
     end
 
-    %w[ get delete ].each do |method|
+    %w[ get get! delete delete! ].each do |method|
       module_eval %{
         def #{method}(path, params = {}, env = {})
           page.driver.#{method}(path, params, env)
@@ -22,7 +22,7 @@ module Capybara
       }
     end
 
-    %w[ post put ].each do |method|
+    %w[ post post! put put! ].each do |method|
       module_eval %{
         def #{method}(path, json, env = {})
           page.driver.#{method}(path, json, env)

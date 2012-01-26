@@ -20,14 +20,14 @@ require 'spec_helper'
       Capybara.current_driver = Capybara.default_driver
     end
     
-    %w[ get delete ].each do |method|
+    %w[ get get! delete delete! ].each do |method|
       it "register #{method}" do
         __send__(method, '/')
         body.should == { 'Hello world!' => 'Hello world!' }
       end
     end
     
-    %w[ post put ].each do |method|
+    %w[ post post! put put! ].each do |method|
       it "register #{method}" do
         __send__(method, '/', {})
         body.should == { 'Hello world!' => 'Hello world!' }

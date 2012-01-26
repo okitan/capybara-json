@@ -1,3 +1,7 @@
+## 0.1.2
+* BUGFIX
+   * I forgot to add get! etc to Capybara::DSL
+
 ## 0.1.1
 * ENHANCEMENT
     * get!, post!, put!, delete!
