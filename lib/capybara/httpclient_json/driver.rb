@@ -34,15 +34,15 @@ class Capybara::HTTPClientJson::Driver < Capybara::Driver::Base
     response.headers
   end
 
-  def get(url, params = {}, headers = {})
-    process :get, url, params, headers, true # follow_redirect
+  def get(url, params = {}, headers = {}, options = true) # follow_redirect
+    process :get, url, params, headers, options
   end
   alias visit get
 
-  def post(url, json, headers = {})
+  def post(url, json, headers = {}, options = true) # follow_redirect
     json = MultiJson.encode(json) unless json.is_a?(String)
     headers['Content-Type'] = "application/json; charset=#{json.encoding.to_s.downcase}"
-    process :post, url, json, headers, true # follow_redirect
+    process :post, url, json, headers, options
   end
 
   def put(url, json, headers = {})
