@@ -1,7 +1,7 @@
 require 'httpclient'
 
 class Capybara::HTTPClientJson::Driver < Capybara::Driver::Base
-  attr_reader :app, :current_url, :rack_server, :response, :cookies
+  attr_reader :app, :current_url, :rack_server, :response
 
   def client
     unless @client
@@ -29,9 +29,32 @@ class Capybara::HTTPClientJson::Driver < Capybara::Driver::Base
   def body
     MultiJson.decode(source) || {}
   end
+  alias parsed_body body
 
   def response_headers
     response.headers
+  end
+  alias headers response_headers
+
+  def cookies
+    response.cookies
+  end
+
+  def set_cookie(cookie, uri)
+    @client = nil
+    c = WebAgent::Cookie.new
+    c.parse(cookie, uri)
+    client.cookie_manager.add(c)
+  end
+
+  def verify_mode(value)
+    client.ssl_config.verify_mode = value
+  end
+
+  def set_client_cert_file(cert_file_path, key_file_path, password)
+    client.ssl_config.client_cert = OpenSSL::X509::Certificate.new(File.read(cert_file_path))
+    client.ssl_config.client_key = OpenSSL::PKey::RSA.new(File.read(key_file_path), password)
+    client.ssl_config.verify_mode = OpenSSL::SSL::VERIFY_NONE
   end
 
   def get(url, params = {}, headers = {}, options = true) # follow_redirect
@@ -44,12 +67,14 @@ class Capybara::HTTPClientJson::Driver < Capybara::Driver::Base
     headers['Content-Type'] = "application/json; charset=#{json.encoding.to_s.downcase}"
     process :post, url, json, headers, options
   end
+  alias post_json post
 
   def put(url, json, headers = {})
     json = MultiJson.encode(json) unless json.is_a?(String)
     headers['Content-Type'] = "application/json; charset=#{json.encoding.to_s.downcase}"
     process :put, url, json, headers
   end
+  alias put_json put
 
   def delete(url, params = {}, headers = {})
     process :delete, url, params, headers
@@ -63,17 +88,20 @@ class Capybara::HTTPClientJson::Driver < Capybara::Driver::Base
     }
   end
 
-  %w[ post put ].each do |method|
+  %w[ post put post_json put_json ].each do |method|
     class_eval %{
       def #{method}!(url, json, headers = {})
         handle_error { #{method}(url, json, headers) }
       end
       }
   end
-  
+
   def reset!
     @client = nil
+    @response = nil
+    @current_uri = nil
   end
+  alias clear_all reset!
 
   protected
   def process(method, path, params = {}, headers = {}, options = {})
