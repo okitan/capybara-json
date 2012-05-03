@@ -10,6 +10,7 @@ describe klass do
   it_should_behave_like 'driver with custom header support'
   it_should_behave_like 'driver with status code support'
   it_should_behave_like 'driver with cookies support'
+  it_should_behave_like "driver with redirect support"
   it_should_behave_like 'driver with infinite redirect detection'
 
   it_should_behave_like 'driver to post json'
