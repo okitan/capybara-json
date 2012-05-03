@@ -13,7 +13,7 @@ module Capybara
         end
       end
     end
-  end  
+  end
 end
 
 
@@ -27,7 +27,7 @@ class JsonTestApp < TestApp
       status(res.shift)
       body(res.pop)
       headers(*res)
-    elsif res.respond_to? :each 
+    elsif res.respond_to? :each
       content_type :json
       body res
     end
