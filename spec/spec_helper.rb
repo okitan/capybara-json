@@ -1,6 +1,8 @@
 ROOT = File.dirname(__FILE__)
 $: << File.expand_path('../lib', ROOT)
 
+require "pry"
+
 require 'capybara/json'
 Dir[File.expand_path("support/**/*.rb", ROOT)].each {|f| require f }
 

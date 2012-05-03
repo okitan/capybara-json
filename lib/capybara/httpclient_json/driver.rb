@@ -8,6 +8,13 @@ class Capybara::HTTPClientJson::Driver < Capybara::Json::Driver::Base
       @client = HTTPClient.new
       @client.follow_redirect_count  = 5 + 1 # allows 5 redirection
       @client.ssl_config.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+      # hack for redirect
+      def @client.redirect_uri_callback_to_keep_new_uri(uri, res)
+        new_uri = default_redirect_uri_callback(uri, res)
+        @new_uri = new_uri
+      end
+      @client.redirect_uri_callback = @client.method(:redirect_uri_callback_to_keep_new_uri)
     end
     @client
   end
@@ -81,6 +88,12 @@ class Capybara::HTTPClientJson::Driver < Capybara::Json::Driver::Base
 
     begin
       @response = client.__send__(method, @current_url, params, headers, options)
+
+      # hack for redirect
+      if new_uri = client.instance_variable_get(:@new_uri)
+        @current_url = new_uri.to_s
+        client.instance_variable_set(:@new_uri, nil)
+      end
     rescue HTTPClient::BadResponseError => e
       if e.message == "retry count exceeded"
         raise Capybara::InfiniteRedirectError
