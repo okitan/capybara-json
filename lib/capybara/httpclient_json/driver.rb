@@ -1,6 +1,6 @@
 require 'httpclient'
 
-class Capybara::HTTPClientJson::Driver < Capybara::Driver::Base
+class Capybara::HTTPClientJson::Driver < Capybara::Json::Driver::Base
   attr_reader :app, :current_url, :rack_server, :response, :cookies
 
   def client
@@ -70,7 +70,7 @@ class Capybara::HTTPClientJson::Driver < Capybara::Driver::Base
       end
       }
   end
-  
+
   def reset!
     @client = nil
   end

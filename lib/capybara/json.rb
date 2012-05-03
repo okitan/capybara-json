@@ -31,10 +31,15 @@ module Capybara
     end
 
     autoload :Error, 'capybara/json/error'
+
+    module Driver
+      autoload :Base, "capybara/json/driver/base"
+    end
   end
 
   module RackTestJson
     autoload :Driver, 'capybara/rack_test_json/driver'
+    autoload :Client, "capybara/rack_test_json/client"
   end
 
   module HTTPClientJson

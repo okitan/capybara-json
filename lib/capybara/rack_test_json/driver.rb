@@ -1,14 +1,24 @@
-to_inherit = Capybara.const_defined?("RackTest") ? Capybara::RackTest::Driver : Capybara::Driver::RackTest
+class Capybara::RackTestJson::Driver < Capybara::Json::Driver::Base
+  def initialize(app)
+    @app = app
+  end
 
-class Capybara::RackTestJson::Driver < to_inherit
-  def body
-    MultiJson.decode(source) || {}
+  def client
+    @client ||= Capybara::RackTestJson::Client.new(@app)
+  end
+
+  def last_request
+    client.last_request
+  end
+
+  def last_response
+    client.last_response
   end
 
   %w[ get delete ].each do |method|
     class_eval %{
       def #{method}(path, params = {}, env = {})
-        super(path, params, env_for_rack(env))
+        client.#{method}(path, params, env_for_rack(env))
       end
 
       def #{method}!(path, params = {}, env = {})
@@ -16,6 +26,7 @@ class Capybara::RackTestJson::Driver < to_inherit
       end
     }
   end
+  alias visit get
 
   %w[ post put ].each do |method|
     class_eval %{
@@ -24,17 +35,41 @@ class Capybara::RackTestJson::Driver < to_inherit
 
         request_env = {
           'CONTENT_LENGTH' => json.size,
-          'CONTENT_TYPE'   => "application/json; charset=\#{json.encoding.to_s.downcase}", 
+          'CONTENT_TYPE'   => "application/json; charset=\#{json.encoding.to_s.downcase}",
           'rack.input'     => StringIO.new(json)
         }.merge(env_for_rack(env))
-        
-        super(path, {}, request_env)
+
+        client.#{method}(path, {}, request_env)
       end
 
       def #{method}!(path, json, env = {})
         handle_error { #{method}(path, json, env) }
       end
     }
+  end
+
+  def current_url
+    last_request.url
+  end
+
+  def source
+    last_response.body
+  end
+
+  def body
+    MultiJson.decode(source) || {}
+  end
+
+  def response_headers
+    last_response.headers
+  end
+
+  def status_code
+    last_response.status
+  end
+
+  def reset!
+    @client = nil
   end
 
   protected
@@ -50,6 +85,6 @@ class Capybara::RackTestJson::Driver < to_inherit
 
   def handle_error(&block)
     yield
-    raise(Capybara::Json::Error, response) if status_code >= 400
+    raise(Capybara::Json::Error, last_response) if status_code >= 400
   end
 end
