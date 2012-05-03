@@ -15,19 +15,19 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  [ [ 'capybara' ],
-    [ 'httpclient' ],
-    [ 'multi_json' ],
-  ].each do |gem, version|
-    s.add_runtime_dependency gem, version
-  end
+  s.add_runtime_dependency "capybara"
+  s.add_runtime_dependency "httpclient"
+  s.add_runtime_dependency "multi_json"
 
-  [ [ 'rspec', '~> 2.8.0.rc' ],
-    [ 'sinatra' ],
-    [ 'yajl-ruby' ],
-    [ 'autowatchr' ],
-    [ 'rake' ],
-  ].each do |gem, version|
-    s.add_development_dependency gem, version
-  end
+  # for testing
+  s.add_development_dependency "rake"
+  s.add_development_dependency "rspec", "~> 2.8.0"
+  s.add_development_dependency "sinatra"
+  s.add_development_dependency "thin"
+  s.add_development_dependency "yajl-ruby"
+  s.add_development_dependency "autowatchr"
+
+  # for debug
+  s.add_development_dependency "pry"
+  s.add_development_dependency "tapp"
 end
