@@ -73,14 +73,14 @@ end
       json = { :some => :args }
 
       @driver.__send__(method, '/env', json)
-      @driver.body['content_length'].to_i.should == MultiJson.encode(json).length
+      @driver.body['content_length'].to_i.should == MultiJson.dump(json).length
     end
 
     it 'should post body' do
       json = { :some => :args }
 
       @driver.__send__(method, '/env', json)
-      @driver.body['rack.input'].should == MultiJson.encode(json)
+      @driver.body['rack.input'].should == MultiJson.dump(json)
     end
   end
 end

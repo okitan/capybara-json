@@ -21,8 +21,8 @@ class JsonTestApp < TestApp
   def invoke
     res = catch(:halt) { yield }
 
-    res = [ MultiJson.encode(res => res) ] if Fixnum === res or String === res
-    res = [ MultiJson.encode(res) ] if Hash === res
+    res = [ MultiJson.dump(res => res) ] if Fixnum === res or String === res
+    res = [ MultiJson.dump(res) ] if Hash === res
     if Array === res and Fixnum === res.first
       status(res.shift)
       body(res.pop)

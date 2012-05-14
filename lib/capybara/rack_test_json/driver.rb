@@ -34,7 +34,7 @@ class Capybara::RackTestJson::Driver < Capybara::Json::Driver::Base
   %w[ post put ].each do |method|
     class_eval %{
       def #{method}(path, json, env = {})
-        json = MultiJson.encode(json) unless json.is_a?(String)
+        json = MultiJson.dump(json) unless json.is_a?(String)
 
         request_env = {
           'CONTENT_LENGTH' => json.size,
@@ -60,7 +60,7 @@ class Capybara::RackTestJson::Driver < Capybara::Json::Driver::Base
   end
 
   def body
-    MultiJson.decode(source) || {}
+    MultiJson.load(source) || {}
   end
 
   def response_headers

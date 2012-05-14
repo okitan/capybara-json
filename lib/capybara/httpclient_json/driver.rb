@@ -34,7 +34,7 @@ class Capybara::HTTPClientJson::Driver < Capybara::Json::Driver::Base
   end
 
   def body
-    MultiJson.decode(source) || {}
+    MultiJson.load(source) || {}
   end
 
   def response_headers
@@ -47,13 +47,13 @@ class Capybara::HTTPClientJson::Driver < Capybara::Json::Driver::Base
   alias visit get
 
   def post(url, json, headers = {})
-    json = MultiJson.encode(json) unless json.is_a?(String)
+    json = MultiJson.dump(json) unless json.is_a?(String)
     headers['Content-Type'] = "application/json; charset=#{json.encoding.to_s.downcase}"
     process :post, url, json, headers, options[:follow_redirect]
   end
 
   def put(url, json, headers = {})
-    json = MultiJson.encode(json) unless json.is_a?(String)
+    json = MultiJson.dump(json) unless json.is_a?(String)
     headers['Content-Type'] = "application/json; charset=#{json.encoding.to_s.downcase}"
     process :put, url, json, headers
   end
