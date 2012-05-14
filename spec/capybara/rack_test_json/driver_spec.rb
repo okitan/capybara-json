@@ -19,3 +19,9 @@ describe klass do
   it_should_behave_like 'driver for client error'
   it_should_behave_like 'driver for server error'
 end
+
+describe klass do
+  before { @driver = described_class.new(JsonTestApp, :follow_redirect => false) }
+
+  it_should_behave_like "driver not to follow redirect"
+end

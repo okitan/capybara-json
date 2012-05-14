@@ -54,6 +54,14 @@ shared_examples_for "driver with redirect support" do
   end
 end
 
+shared_examples_for "driver not to follow redirect" do
+  it "should not follow redirect" do
+    @driver.get "/redirect"
+    @driver.status_code.should == 302
+    URI.parse(@driver.current_url).path.should == "/redirect"
+  end
+end
+
 %w[ post put ].each do |method|
   shared_examples_for "driver to #{method} json" do
     it 'should set content type as json to request' do

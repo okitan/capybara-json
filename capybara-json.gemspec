@@ -5,8 +5,8 @@ Gem::Specification.new do |s|
   s.authors     = ["okitan"]
   s.email       = ["okitakunio@gmail.com"]
   s.homepage    = "http://github.com/okitan/capybara-json"
-  s.summary     = %q{for testing json-api with capybara}
-  s.description = %q{for testing json-api with capybara}
+  s.summary     = %q{for testing json-api}
+  s.description = %q{for testing json-api}
 
   s.rubyforge_project = "capybara-json"
 
@@ -16,12 +16,12 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_runtime_dependency "capybara"
-  s.add_runtime_dependency "httpclient"
-  s.add_runtime_dependency "multi_json"
+  s.add_runtime_dependency "httpclient", "~> 2.2"
+  s.add_runtime_dependency "multi_json", "~> 1.3"
 
   # for testing
   s.add_development_dependency "rake"
-  s.add_development_dependency "rspec", "~> 2.8.0"
+  s.add_development_dependency "rspec", "~> 2.8"
   s.add_development_dependency "sinatra"
   s.add_development_dependency "thin"
   s.add_development_dependency "yajl-ruby"
