@@ -4,17 +4,21 @@ module Capybara::RackTestJson
   class Client
     include Rack::Test::Methods
 
-    attr_accessor :app
+    attr_accessor :app, :options
 
-    def initialize(app)
-      @app = app
+    def initialize(app, options)
+      @app, @options = app, options
     end
 
     %w[ get post put delete ].each do |method|
       module_eval %{
         def #{method}(uri, params = {}, env = {}, &block)
           env.merge(:method => "#{method.upcase}", :params => params)
-          request_with_follow_redirect(uri, env, &block)
+          if options[:follow_redirect]
+            request_with_follow_redirect(uri, env, &block)
+          else
+            request(uri, env)
+          end
         end
       }
     end

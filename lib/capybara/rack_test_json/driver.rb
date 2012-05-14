@@ -1,10 +1,12 @@
 class Capybara::RackTestJson::Driver < Capybara::Json::Driver::Base
-  def initialize(app)
-    @app = app
+  attr_reader :app, :options
+
+  def initialize(app, options = {})
+    @app, @options = app, { :follow_redirect => true }.merge(options)
   end
 
   def client
-    @client ||= Capybara::RackTestJson::Client.new(@app)
+    @client ||= Capybara::RackTestJson::Client.new(app, options)
   end
 
   def last_request
@@ -14,6 +16,7 @@ class Capybara::RackTestJson::Driver < Capybara::Json::Driver::Base
   def last_response
     client.last_response
   end
+  alias response last_response
 
   %w[ get delete ].each do |method|
     class_eval %{

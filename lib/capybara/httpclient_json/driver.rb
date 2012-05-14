@@ -1,7 +1,7 @@
 require 'httpclient'
 
 class Capybara::HTTPClientJson::Driver < Capybara::Json::Driver::Base
-  attr_reader :app, :current_url, :rack_server, :response, :cookies
+  attr_reader :app, :options, :current_url, :response, :cookies
 
   def client
     unless @client
@@ -19,8 +19,8 @@ class Capybara::HTTPClientJson::Driver < Capybara::Json::Driver::Base
     @client
   end
 
-  def initialize(app)
-    @app = app
+  def initialize(app, options = {})
+    @app, @options = app, { :follow_redirect => true }.merge(options)
     @rack_server = Capybara::Server.new(@app)
     @rack_server.boot if Capybara.run_server
   end
@@ -42,14 +42,14 @@ class Capybara::HTTPClientJson::Driver < Capybara::Json::Driver::Base
   end
 
   def get(url, params = {}, headers = {})
-    process :get, url, params, headers, true # follow_redirect
+    process :get, url, params, headers, options[:follow_redirect]
   end
   alias visit get
 
   def post(url, json, headers = {})
     json = MultiJson.encode(json) unless json.is_a?(String)
     headers['Content-Type'] = "application/json; charset=#{json.encoding.to_s.downcase}"
-    process :post, url, json, headers, true # follow_redirect
+    process :post, url, json, headers, options[:follow_redirect]
   end
 
   def put(url, json, headers = {})
