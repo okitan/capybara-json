@@ -1,3 +1,7 @@
+## 0.2.2
+* BUGFIX
+ * rack_test_json works POST, PUT, DELETE as well (thanks to @sonots)
+
 ## 0.2.1
 * ENHANCEMENT
  * options to switch redirect
