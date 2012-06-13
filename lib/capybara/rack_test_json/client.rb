@@ -13,7 +13,7 @@ module Capybara::RackTestJson
     %w[ get post put delete ].each do |method|
       module_eval %{
         def #{method}(uri, params = {}, env = {}, &block)
-          env.merge(:method => "#{method.upcase}", :params => params)
+          env = env.merge(:method => "#{method.upcase}", :params => params)
           if options[:follow_redirect]
             request_with_follow_redirect(uri, env, &block)
           else

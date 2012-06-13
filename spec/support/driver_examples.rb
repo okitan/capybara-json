@@ -69,6 +69,11 @@ end
       @driver.body['content_type'].should =~ %r"^application/json"
     end
 
+    it "should actualy #{method}" do
+      @driver.__send__(method, '/env', {})
+      @driver.body["request_method"].should == method.upcase
+    end
+
     it 'should set content length' do
       json = { :some => :args }
 
