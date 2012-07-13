@@ -1,7 +1,9 @@
-ROOT = File.dirname(__FILE__)
-$: << File.expand_path('../lib', ROOT)
+require "bundler/setup"
 
 require "pry"
+require "tapp"
+
+ROOT = File.dirname(__FILE__)
 
 require 'capybara/json'
 Dir[File.expand_path("support/**/*.rb", ROOT)].each {|f| require f }

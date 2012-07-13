@@ -92,7 +92,7 @@ end
 
 shared_examples_for 'driver for client error' do
   it 'should not raise exception' do
-    expect { @driver.get('/errors/400') }.should_not raise_exception
+    expect { @driver.get('/errors/400') }.not_to raise_exception
   end
 
   it 'should make the status code available' do
@@ -111,13 +111,13 @@ shared_examples_for 'driver for client error' do
   end
 
   it 'should raise error using bang!' do
-    expect { @driver.get!('/errors/400') }.should raise_exception(Capybara::Json::Error)
+    expect { @driver.get!('/errors/400') }.to raise_exception(Capybara::Json::Error)
   end
 end
 
 shared_examples_for 'driver for server error' do
   it 'should not raise exception' do
-    expect { @driver.get('/errors/500') }.should_not raise_exception
+    expect { @driver.get('/errors/500') }.not_to raise_exception
   end
 
   it 'should make the status_code available' do
@@ -126,6 +126,6 @@ shared_examples_for 'driver for server error' do
   end
 
   it 'should raise error using bang!' do
-    expect { @driver.get!('/errors/500') }.should raise_exception(Capybara::Json::Error)
+    expect { @driver.get!('/errors/500') }.to raise_exception(Capybara::Json::Error)
   end
 end

@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
 
   # for testing
   s.add_development_dependency "rake"
-  s.add_development_dependency "rspec", "~> 2.8"
+  s.add_development_dependency "rspec", "~> 2.11"
   s.add_development_dependency "sinatra"
   s.add_development_dependency "thin"
   s.add_development_dependency "yajl-ruby"
