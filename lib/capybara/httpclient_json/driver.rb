@@ -33,7 +33,12 @@ class Capybara::HTTPClientJson::Driver < Capybara::Json::Driver::Base
     response.body
   end
 
+  # Capybara changed this in capybara-2.0
   def body
+    Capybar::VERSION =~ /^2/ ? source : json
+  end
+
+  def json
     MultiJson.load(source) || {}
   end
 
@@ -82,9 +87,13 @@ class Capybara::HTTPClientJson::Driver < Capybara::Json::Driver::Base
     @client = nil
   end
 
+  def needs_server?
+    true
+  end
+
   protected
   def process(method, path, params = {}, headers = {}, options = {})
-    @current_url = @rack_server.url(path)
+    @current_url = path #@rack_server.url(path)
 
     begin
       @response = client.__send__(method, @current_url, params, headers, options)

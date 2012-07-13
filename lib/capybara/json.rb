@@ -14,10 +14,29 @@ module Capybara
       base.extend(self)
     end
 
+    def resolve_path(path)
+      if server = page.server
+        unless path =~ /^http/
+          url = (Capybara.app_host || "http://#{server.host}:#{server.port}") + path
+        else
+          url = path
+        end
+
+        if Capybara.always_include_port
+          uri = URI.parse(url)
+          uri.port = server.port if uri.port == uri.default_port
+          url = uri.to_s
+        end
+        url
+      else
+        path
+      end
+    end
+
     %w[ get get! delete delete! ].each do |method|
       module_eval %{
         def #{method}(path, params = {}, env = {})
-          page.driver.#{method}(path, params, env)
+          page.driver.#{method}(resolve_path(path), params, env)
         end
       }
     end
@@ -25,9 +44,13 @@ module Capybara
     %w[ post post! put put! ].each do |method|
       module_eval %{
         def #{method}(path, json, env = {})
-          page.driver.#{method}(path, json, env)
+          page.driver.#{method}(resolve_path(path), json, env)
         end
       }
+    end
+
+    def json
+      page.driver.json
     end
 
     autoload :Error, 'capybara/json/error'

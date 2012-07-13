@@ -5,6 +5,7 @@ require 'rspec/core'
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec) do |spec|
   require "capybara"
+
   if Capybara::VERSION =~ /^2/
     spec.pattern = FileList["spec/capybara2/**/*_spec.rb"]
   else

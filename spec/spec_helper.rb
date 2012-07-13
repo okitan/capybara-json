@@ -5,7 +5,7 @@ require "tapp"
 
 ROOT = File.dirname(__FILE__)
 
-require "capybara"
+require "capybara/json"
 if Capybara::VERSION =~ /^2/
   require "capybara2/spec_helper"
 else

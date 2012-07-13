@@ -59,9 +59,15 @@ class Capybara::RackTestJson::Driver < Capybara::Json::Driver::Base
     last_response.body
   end
 
+  # Capybara changed this in capybara-2.0
   def body
+    Capybar::VERSION =~ /^2/ ? source : json
+  end
+
+  def json
     MultiJson.load(source) || {}
   end
+
 
   def response_headers
     last_response.headers
