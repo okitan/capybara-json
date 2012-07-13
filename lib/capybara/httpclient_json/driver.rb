@@ -35,11 +35,11 @@ class Capybara::HTTPClientJson::Driver < Capybara::Json::Driver::Base
 
   # Capybara changed this in capybara-2.0
   def body
-    Capybar::VERSION =~ /^2/ ? source : json
+    ::Capybara::VERSION =~ /^2/ ? source : json
   end
 
   def json
-    MultiJson.load(source) || {}
+    ::MultiJson.load(source) || {}
   end
 
   def response_headers
