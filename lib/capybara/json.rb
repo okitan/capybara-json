@@ -15,7 +15,7 @@ module Capybara
     end
 
     def resolve_path(path)
-      if server = page.server
+      if page.respond_to?(:server) && server = page.server # for Capybara 2.0
         unless path =~ /^http/
           url = (Capybara.app_host || "http://#{server.host}:#{server.port}") + path
         else

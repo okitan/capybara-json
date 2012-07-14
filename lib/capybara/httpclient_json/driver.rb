@@ -93,7 +93,11 @@ class Capybara::HTTPClientJson::Driver < Capybara::Json::Driver::Base
 
   protected
   def process(method, path, params = {}, headers = {}, options = {})
-    @current_url = path #@rack_server.url(path)
+    @current_url = if path =~ %r<^http://>
+      path
+    else
+      @rack_server ? @rack_server.url(path) : path # for Capybara 1.0
+    end
 
     begin
       @response = client.__send__(method, @current_url, params, headers, options)

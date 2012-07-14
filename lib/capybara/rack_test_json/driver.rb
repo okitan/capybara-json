@@ -68,7 +68,6 @@ class Capybara::RackTestJson::Driver < Capybara::Json::Driver::Base
     ::MultiJson.load(source) || {}
   end
 
-
   def response_headers
     last_response.headers
   end
