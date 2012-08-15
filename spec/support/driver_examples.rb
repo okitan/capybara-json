@@ -39,6 +39,14 @@ shared_examples_for 'driver' do
     end
   end
 
+  describe '#json' do
+    it "should return json reponses" do
+      @driver.visit('/')
+      @driver.json.should be_a(Hash)
+      @driver.json.should include('Hello world!')
+    end
+    # pending encoding
+  end
   # TODO: find by jsonpath?
 end
 

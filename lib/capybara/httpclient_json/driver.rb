@@ -37,6 +37,10 @@ class Capybara::HTTPClientJson::Driver < Capybara::Json::Driver::Base
     MultiJson.load(source) || {}
   end
 
+  def json
+    MultiJson.load(source) || {}
+  end
+
   def response_headers
     response.headers
   end
