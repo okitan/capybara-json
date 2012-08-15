@@ -25,9 +25,18 @@ shared_examples_for 'driver' do
   describe '#body' do
     it "should return json reponses" do
       @driver.visit('/')
+      @driver.body.should be_a(Hash)
       @driver.body.should include('Hello world!')
     end
     # pending encoding
+  end
+
+  context '#source' do
+    it "should return raw reponse" do
+      @driver.visit('/')
+      @driver.source.should be_a(String)
+      @driver.source.should include('Hello world!')
+    end
   end
 
   # TODO: find by jsonpath?

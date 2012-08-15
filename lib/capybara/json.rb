@@ -6,7 +6,7 @@ require 'multi_json'
 module Capybara
   module Json
     def self.to_include
-      Capybara.const_defined?("DSL") ? Capybara::DSL : Capybara
+      ::Capybara.const_defined?("DSL") ? ::Capybara::DSL : ::Capybara
     end
 
     def self.included(base)
