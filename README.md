@@ -9,22 +9,25 @@ capybara-json provides the same interface to testing JSON API (both local and re
 Capybara is an acceptance test framework, and it has no interest with client error(4xx response).
 
 ## USAGE
-    require 'capybara/json'
-    include Capybara::Json
 
-    Capybara.current_driver = :rack_test_json
-    post '/', { "this is" => "json" } # POST '/'
-    body   #=> parsed json response
-    source #=> raw response body
-    get  '/errors/400'
-    status_code #=> 400
-    get! '/errors' #=> raise Capybara::Json::Error
+```ruby
+require 'capybara/json'
+include Capybara::Json
 
-    Capybara.current_driver = :httpclient_json
-    Capybara.app_host = 'http://example.com'
-    post '/', { "this is" => "json" } # POST 'http://example.com/'
-    body   #=> parsed json response
-    source #=> raw response body
-    get  '/errors/400'
-    status_code #=> 400
-    get! '/errors' #=> raise Capybara::Json::Error
+Capybara.current_driver = :rack_test_json
+post '/', { "this is" => "json" } # POST '/'
+json   #=> parsed json response
+source #=> raw response body
+get  '/errors/400'
+status_code #=> 400
+get! '/errors' #=> raise Capybara::Json::Error
+
+Capybara.current_driver = :httpclient_json
+Capybara.app_host = 'http://example.com'
+post '/', { "this is" => "json" } # POST 'http://example.com/'
+json   #=> parsed json response
+source #=> raw response body
+get  '/errors/400'
+status_code #=> 400
+get! '/errors' #=> raise Capybara::Json::Error
+```

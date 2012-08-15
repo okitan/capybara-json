@@ -1,3 +1,7 @@
+## 0.2.3
+* ENHANCEMENT
+ * add json interface to get json
+
 ## 0.2.2
 * BUGFIX
  * rack_test_json works POST, PUT, DELETE as well (thanks to @sonots)
