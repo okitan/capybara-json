@@ -67,11 +67,11 @@ class Capybara::HTTPClientJson::Driver < Capybara::Json::Driver::Base
   end
 
   %w[ get delete ].each do |method|
-    class_eval %{
+    class_eval <<-DEF, __FILE__, __LINE__ + 1
       def #{method}!(url, params = {}, env = {})
         handle_error { #{method}(url, params, env) }
       end
-    }
+    DEF
   end
 
   %w[ post put ].each do |method|
