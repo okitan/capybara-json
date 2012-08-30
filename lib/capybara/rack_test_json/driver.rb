@@ -19,7 +19,7 @@ class Capybara::RackTestJson::Driver < Capybara::Json::Driver::Base
   alias response last_response
 
   %w[ get delete ].each do |method|
-    class_eval %{
+    class_eval <<-DEF, __FILE__, __LINE__ + 1
       def #{method}(path, params = {}, env = {})
         client.#{method}(path, params, env_for_rack(env))
       end
@@ -27,12 +27,12 @@ class Capybara::RackTestJson::Driver < Capybara::Json::Driver::Base
       def #{method}!(path, params = {}, env = {})
         handle_error { #{method}(path, params, env) }
       end
-    }
+    DEF
   end
   alias visit get
 
   %w[ post put ].each do |method|
-    class_eval %{
+    class_eval <<-DEF, __FILE__, __LINE__ + 1
       def #{method}(path, json, env = {})
         json = MultiJson.dump(json) unless json.is_a?(String)
 
@@ -48,7 +48,7 @@ class Capybara::RackTestJson::Driver < Capybara::Json::Driver::Base
       def #{method}!(path, json, env = {})
         handle_error { #{method}(path, json, env) }
       end
-    }
+    DEF
   end
 
   def current_url
