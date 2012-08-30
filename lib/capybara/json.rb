@@ -15,19 +15,19 @@ module Capybara
     end
 
     %w[ get get! delete delete! ].each do |method|
-      module_eval %{
+      module_eval <<-DEF, __FILE__, __LINE__ + 1
         def #{method}(path, params = {}, env = {})
           page.driver.#{method}(path, params, env)
         end
-      }
+      DEF
     end
 
     %w[ post post! put put! ].each do |method|
-      module_eval %{
+      module_eval <<-DEF, __FILE__, __LINE__ + 1
         def #{method}(path, json, env = {})
           page.driver.#{method}(path, json, env)
         end
-      }
+      DEF
     end
 
     autoload :Error, 'capybara/json/error'
