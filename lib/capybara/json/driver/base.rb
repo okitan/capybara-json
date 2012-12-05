@@ -9,5 +9,6 @@ module Capybara::Json::Driver
         raise NotImplementedError
       end
     end
+    def needs_server?; false; end
   end
 end
