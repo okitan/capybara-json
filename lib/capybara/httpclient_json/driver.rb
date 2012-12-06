@@ -82,6 +82,10 @@ class Capybara::HTTPClientJson::Driver < Capybara::Json::Driver::Base
       }
   end
 
+  def needs_server?
+    true
+  end
+
   def reset!
     @client = nil
   end
