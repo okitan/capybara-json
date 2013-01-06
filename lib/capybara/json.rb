@@ -30,6 +30,12 @@ module Capybara
       DEF
     end
 
+    %w[ raw_json json ].each do |method|
+      define_method(method) do
+        page.driver.__send__(method)
+      end
+    end
+
     autoload :Error, 'capybara/json/error'
 
     module Driver
