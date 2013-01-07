@@ -3,7 +3,7 @@ module Capybara::Json::Driver
     %w[ get post put delete get! post! put! delete!
         reset!
         current_url
-        source body response_headers status_code
+        raw_json json source body response_headers status_code
     ].each do |method|
       define_method(method) do
         raise NotImplementedError

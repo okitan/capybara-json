@@ -29,9 +29,11 @@ class Capybara::HTTPClientJson::Driver < Capybara::Json::Driver::Base
     response.code
   end
 
-  def source
+  def raw_json
     response.body
   end
+  alias source raw_json # almost deprecated
+  alias html   raw_json # hack for capybara2
 
   def body
     MultiJson.load(source) || {}
