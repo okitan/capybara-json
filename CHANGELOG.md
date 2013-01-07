@@ -1,3 +1,6 @@
+## 0.3.0.beta2
+* Fix #8
+
 ## 0.3.0.beta1
 * Capybara 2.x support, but test not working now... (thanks to gkellogg)
 
