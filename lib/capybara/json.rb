@@ -11,31 +11,10 @@ module Capybara
 
     def self.included(base)
       base.__send__(:include, to_include) unless base < to_include
-      base.extend(self)
+      base.__send__(:include, ::Capybara::Json::Dsl)
     end
 
-    %w[ get get! delete delete! ].each do |method|
-      module_eval <<-DEF, __FILE__, __LINE__ + 1
-        def #{method}(path, params = {}, env = {})
-          page.driver.#{method}(path, params, env)
-        end
-      DEF
-    end
-
-    %w[ post post! put put! ].each do |method|
-      module_eval <<-DEF, __FILE__, __LINE__ + 1
-        def #{method}(path, json, env = {})
-          page.driver.#{method}(path, json, env)
-        end
-      DEF
-    end
-
-    %w[ raw_json json ].each do |method|
-      define_method(method) do
-        page.driver.__send__(method)
-      end
-    end
-
+    autoload :Dsl,   'capybara/json/dsl'
     autoload :Error, 'capybara/json/error'
 
     module Driver
