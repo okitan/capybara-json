@@ -15,10 +15,11 @@ require 'capybara/json'
 include Capybara::Json
 
 Capybara.current_driver = :rack_test_json
+Capybara.app = MyRackApp
 post '/', { "this is" => "json" } # POST '/'
 json   #=> parsed json response
 source #=> raw response body
-get  '/errors/400'
+get  '/errors/400', {}, { 'header' => '' }
 status_code #=> 400
 get! '/errors' #=> raise Capybara::Json::Error
 
@@ -27,7 +28,7 @@ Capybara.app_host = 'http://example.com'
 post '/', { "this is" => "json" } # POST 'http://example.com/'
 json   #=> parsed json response
 source #=> raw response body
-get  '/errors/400'
+get  '/errors/400', {}, { 'header' => '' }
 status_code #=> 400
 get! '/errors' #=> raise Capybara::Json::Error
 ```
