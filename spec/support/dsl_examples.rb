@@ -72,5 +72,6 @@ shared_examples_for "dsl not to follow redirect" do
     get "/redirect"
     status_code.should == 302
     URI.parse(current_url).path.should == "/redirect"
+    URI.parse(response_headers["Location"]).path.should == "/redirect_again"
   end
 end

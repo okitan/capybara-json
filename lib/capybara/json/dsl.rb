@@ -21,7 +21,7 @@ module Capybara
         DEF
       end
 
-      %w[ raw_json json source body status_code ].each do |method|
+      %w[ raw_json json source body status_code response_headers ].each do |method|
         define_method(method) do
           page.driver.__send__(method)
         end

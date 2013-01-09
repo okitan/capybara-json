@@ -109,6 +109,7 @@ shared_examples_for "driver not to follow redirect" do
     @driver.get "/redirect"
     @driver.status_code.should == 302
     URI.parse(@driver.current_url).path.should == "/redirect"
+    URI.parse(@driver.response_headers["Location"]).path.should == "/redirect_again"
   end
 end
 
