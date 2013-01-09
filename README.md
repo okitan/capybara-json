@@ -15,12 +15,15 @@ require 'capybara/json'
 include Capybara::Json
 
 Capybara.current_driver = :rack_test_json
+Capybara.app = MyRackApp
 post '/', { "this is" => "json" } # POST '/'
 json   #=> parsed json response
 source #=> raw response body
 get  '/errors/400'
 status_code #=> 400
 get! '/errors' #=> raise Capybara::Json::Error
+get  '/errors', {}, { 'header' => '' } # request headers
+response_headers #=> response headers
 
 Capybara.current_driver = :httpclient_json
 Capybara.app_host = 'http://example.com'
@@ -30,4 +33,6 @@ source #=> raw response body
 get  '/errors/400'
 status_code #=> 400
 get! '/errors' #=> raise Capybara::Json::Error
+get  '/errors', {}, { 'header' => '' } # request headers
+response_headers #=> response headers
 ```

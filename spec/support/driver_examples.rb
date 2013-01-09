@@ -1,11 +1,5 @@
-require 'capybara/spec/driver'
-
 # this code is written in capybara's spec/spec_helper
 alias :running :lambda
-
-[ 'driver', 'driver with header support' ].each do |shared|
-  RSpec.world.shared_example_groups.delete(shared)
-end
 
 shared_examples_for 'driver' do
   describe '#visit' do
@@ -64,6 +58,45 @@ shared_examples_for 'driver with custom header support' do
   end
 end
 
+shared_examples_for "driver with status code support" do
+  it "should make the status code available through status_code" do
+    @driver.visit('/with_simple_html')
+    @driver.status_code.should == 200
+  end
+end
+
+shared_examples_for "driver with cookies support" do
+  describe "#reset!" do
+    it "should set and clean cookies" do
+      @driver.visit('/get_cookie')
+      @driver.body.should_not include('test_cookie')
+
+      @driver.visit('/set_cookie')
+      @driver.body.should include('Cookie set to test_cookie')
+
+      @driver.visit('/get_cookie')
+      @driver.body.should include('test_cookie')
+
+      @driver.reset!
+      @driver.visit('/get_cookie')
+      @driver.body.should_not include('test_cookie')
+    end
+  end
+end
+
+shared_examples_for "driver with infinite redirect detection" do
+  it "should follow 5 redirects" do
+    @driver.visit('/redirect/5/times')
+    @driver.body.should include('redirection complete')
+  end
+
+  it "should not follow more than 5 redirects" do
+    running do
+      @driver.visit('/redirect/6/times')
+    end.should raise_error(Capybara::InfiniteRedirectError)
+  end
+end
+
 shared_examples_for "driver with redirect support" do
   it "should update current_url" do
     @driver.get "/redirect"
@@ -76,6 +109,7 @@ shared_examples_for "driver not to follow redirect" do
     @driver.get "/redirect"
     @driver.status_code.should == 302
     URI.parse(@driver.current_url).path.should == "/redirect"
+    URI.parse(@driver.response_headers["Location"]).path.should == "/redirect_again"
   end
 end
 
