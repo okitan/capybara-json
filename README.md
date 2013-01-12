@@ -1,6 +1,6 @@
 # capybara-json [![Build Status](https://secure.travis-ci.org/okitan/capybara-json.png?branch=master)](http://travis-ci.org/okitan/capybara-json) [![Dependency Status](https://gemnasium.com/okitan/capybara-json.png)](https://gemnasium.com/okitan/capybara-json)
 
-testing ruby: 1.9.2, 1.9.3 and ruby-head;  Capybara: < 1.0 and > 1.0
+testing ruby: 1.9.2, 1.9.3;  Capybara: 0.4.x, 1.1.x, 2.0.x
 
 ## About capybara-json
 

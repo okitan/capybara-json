@@ -1,8 +1,5 @@
-## 0.3.0.beta2
-* Fix #8
-
-## 0.3.0.beta1
-* Capybara 2.x support, but test not working now... (thanks to gkellogg)
+## 0.3.0
+* Capybara 2.x support (Thanks to @sonots, @gkellogg)
 
 ## 0.2.4
 * Added __FILE__ and __LINE__ so that pry can find generated methods (thanks to @mad_p)
