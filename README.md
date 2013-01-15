@@ -17,22 +17,26 @@ include Capybara::Json
 Capybara.current_driver = :rack_test_json
 Capybara.app = MyRackApp
 post '/', { "this is" => "json" } # POST '/'
-json   #=> parsed json response
-source #=> raw response body
+json     #=> parsed json response
+raw_json #=> raw response body
+
 get  '/errors/400'
 status_code #=> 400
 get! '/errors' #=> raise Capybara::Json::Error
-get  '/errors', {}, { 'header' => '' } # request headers
-response_headers #=> response headers
+
+get  '/errors', {}, { 'header' => '' } # set request headers
+response_headers #=> get response headers
 
 Capybara.current_driver = :httpclient_json
 Capybara.app_host = 'http://example.com'
 post '/', { "this is" => "json" } # POST 'http://example.com/'
-json   #=> parsed json response
-source #=> raw response body
+json     #=> parsed json response
+raw_json #=> raw response body
+
 get  '/errors/400'
 status_code #=> 400
 get! '/errors' #=> raise Capybara::Json::Error
-get  '/errors', {}, { 'header' => '' } # request headers
-response_headers #=> response headers
+
+get  '/errors', {}, { 'header' => '' } # set request headers
+response_headers #=> get response headers
 ```
