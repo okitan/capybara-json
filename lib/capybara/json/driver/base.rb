@@ -1,6 +1,6 @@
 module Capybara::Json::Driver
   class Base
-    %w[ get post put delete get! post! put! delete!
+    %w[ get post put patch delete get! post! put! patch! delete!
         reset!
         current_url
         raw_json json source body response_headers status_code

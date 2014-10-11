@@ -58,6 +58,12 @@ class Capybara::HTTPClientJson::Driver < Capybara::Json::Driver::Base
     process :post, url, json, headers, options[:follow_redirect]
   end
 
+  def patch(url, json, headers = {})
+    json = MultiJson.dump(json) unless json.is_a?(String)
+    headers['Content-Type'] = "application/json; charset=#{json.encoding.to_s.downcase}"
+    process :patch, url, json, headers, options[:follow_redirect]
+  end
+
   def put(url, json, headers = {})
     json = MultiJson.dump(json) unless json.is_a?(String)
     headers['Content-Type'] = "application/json; charset=#{json.encoding.to_s.downcase}"
@@ -76,7 +82,7 @@ class Capybara::HTTPClientJson::Driver < Capybara::Json::Driver::Base
     DEF
   end
 
-  %w[ post put ].each do |method|
+  %w[ post put patch ].each do |method|
     class_eval %{
       def #{method}!(url, json, headers = {})
         handle_error { #{method}(url, json, headers) }

@@ -13,7 +13,7 @@ module Capybara
         DEF
       end
 
-      %w[ post post! put put! ].each do |method|
+      %w[ post post! put put! patch patch! ].each do |method|
         module_eval <<-DEF, __FILE__, __LINE__ + 1
         def #{method}(path, json, env = {})
           page.driver.#{method}(path, json, env)
