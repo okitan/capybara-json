@@ -1,13 +1,9 @@
 rvm:
-  - 1.9.2
   - 1.9.3
   - 2.0.0
+  - 2.1.*
 gemfile:
   - Gemfile
   - Gemfile.capybara.lt.2.1
   - Gemfile.capybara.lt.2.0
   - Gemfile.capybara.lt.1.0
-matrix:
-  exclude:
-    - rvm: 1.9.2
-      gemfile: Gemfile
