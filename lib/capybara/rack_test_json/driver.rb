@@ -31,7 +31,7 @@ class Capybara::RackTestJson::Driver < Capybara::Json::Driver::Base
   end
   alias visit get
 
-  %w[ post put ].each do |method|
+  %w[ post put patch ].each do |method|
     class_eval <<-DEF, __FILE__, __LINE__ + 1
       def #{method}(path, json, env = {})
         json = MultiJson.dump(json) unless json.is_a?(String)

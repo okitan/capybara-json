@@ -10,7 +10,7 @@ module Capybara::RackTestJson
       @app, @options = app, options
     end
 
-    %w[ get post put delete ].each do |method|
+    %w[ get post put patch delete ].each do |method|
       module_eval <<-DEF, __FILE__, __LINE__+1
         def #{method}(uri, params = {}, env = {}, &block)
           env = env.merge(:method => "#{method.upcase}", :params => params)
