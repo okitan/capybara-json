@@ -1,3 +1,7 @@
+## 0.4.0
+
+* PATCH method support (Thanks to @xforty)
+
 ## 0.3.0
 * Capybara 2.x support (Thanks to @sonots, @gkellogg)
 
