@@ -2,8 +2,8 @@
 Gem::Specification.new do |s|
   s.name        = "capybara-json"
   s.version     = File.read(File.expand_path('VERSION', File.dirname(__FILE__))).chomp
-  s.authors     = ["okitan"]
-  s.email       = ["okitakunio@gmail.com"]
+  s.authors     = ["okitan", "sonots"]
+  s.email       = ["okitakunio@gmail.com", "sonots@gmail.com"]
   s.homepage    = "http://github.com/okitan/capybara-json"
   s.summary     = %q{for testing json-api}
   s.description = %q{for testing json-api}
